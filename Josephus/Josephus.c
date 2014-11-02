@@ -8,6 +8,7 @@
 /************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
+#include <stdlib.h>
 //定义结构体
 typedef struct Node
 {
@@ -26,74 +27,53 @@ int main(void)
 
 void solveJosephus()
 {
-	int i = 0;
+	int i = 0; //循环标志
 	int len = 0;
-	//定义中的节点数目，并赋值
-	int total = 10;
-	//定义报数的大小，并赋值
-	int num = 3;
-	//记录报数的数字(1,2,,,num)
-	int k = 1; 
-	//当前节点的位置
-	int pos = 0;
-	PNODE pHead,pTail,pNew,pNode,pTemp,pCurr;
+	int total = 10;//定义中的节点数目，并赋值
+	int num = 3;//定义报数的大小，并赋值
+
+	PNODE pHead;//头节点
+	PNODE pCurr;//当前节点
+	PNODE pPre;//指向pCurr的前驱节点
+	pHead = NULL;
 	/*创建一个循环链表*/
-	pHead = (PNODE)malloc(sizeof(NODE));	//为头节点动态分配内存
-	pTail = pHead;
-	pTail->pNext = pHead;
-	pTail->data = 1;
-	/*往链表中加入节点*/
-	for ( i=1; i<=total; ++i)
+	for (i=1; i<=total; i++)
 	{
-		/*产生一个新节点*/
-		pNew = (PNODE)malloc(sizeof(NODE));
-		pNew->data = i;
-		/*将新节点插入到循环链表中*/
-		pTail->pNext = pNew;
-		pNew->pNext = pHead;
-		pTail = pNew;
-	}
-
-	pNode = pHead->pNext;
-	while (pHead != pNode)
-	{
-		len ++;
-		pNode = pNode->pNext;
-	}
-	//printf("len = %d\n",len);
-
-	pNode = pHead->pNext;//首节点
-	pos = 1;
-	/*开始报数，删除报到数字3的节点*/
-	while (total >= 3) //当总节点数小于3时，循环终止
-	{
-		k ++;
-		pos ++;
-		pTemp = pNode;
-		pNode = pNode->pNext;
-
-		if (pNode == pHead)
+		//动态分配内存
+		pCurr = (PNODE)malloc(sizeof(NODE));
+		//检查内存是否分类成功
+		if (NULL == pCurr)
 		{
-			pNode = pNode->pNext;
+			printf("动态分配内存失败，退出程序\n");
+			exit(-1);
 		}
-		if (k == num) //当报数到num时
-		{
-			/*删掉当前节点，并记录它的位置*/
-			pCurr = pNode; //当前节点，准备删除
-			pTemp->pNext = pNode->pNext;
-			printf("pos = %d\n",pCurr->data);
-			total --;
-			k = 1;
-			free(pCurr);
-		}
-	}
+		pCurr->data = i;
 
-	//free(pTemp);
-	//遍历删除节点后的循环链表
-// 	pNode = pHead->pNext;
-// 	while (pHead != pNode)
-// 	{
-// 		printf("%d, ",pNode->data);
-// 		pNode = pNode->pNext;
-// 	}
+		if (NULL == pHead)
+		{
+			pHead = pCurr;
+		} 
+		else
+		{
+			pPre->pNext = pCurr;
+		}
+		pPre = pCurr;
+	}
+	pCurr->pNext = pHead;//尾节点的后继节点为pHead，形成循环链表
+	
+	pCurr = pHead;//将头节点指定为当前节点
+
+	while (total >= 3)
+	{
+		for (i=1; i<num; ++i)
+		{
+			pPre = pCurr;
+			pCurr = pCurr->pNext;
+		}
+		pPre->pNext = pCurr->pNext;//将当前节点的下一个节点赋值给当前节点
+		printf("delete number is : %d\n",pCurr->data);
+		free(pCurr);//释放被删除节点的内存
+		total--;//节点总数减1
+		pCurr = pPre->pNext;//指定当前节点
+	}
 }
