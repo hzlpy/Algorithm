@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #define FLAG '1'
+
+enum bool{
+	false,true
+};
+
 //函数声明
 void removeDuplicate(char *s);
+void removeDuplicate2(char *s);
 void print(char *s);
 int main()
 {
@@ -40,6 +46,38 @@ void removeDuplicate(char *s)
 		}
 	}
 }
+/*****************************************************************************
+    *  @brief    : removeDuplicate2 
+    *  @author   : Zhangle
+    *  @date     : 2014/11/7 19:28
+    *  @version  : ver 1.0
+    *  @inparam  : 
+    *  @outparam :  
+*****************************************************************************/
+void removeDuplicate2(char *s)
+{
+	//定义一个大小为256的数组
+	bool b[256];
+	//初始化c
+	int i;//循环标记
+	int p = 0;
+	//求s的长度
+	int length = strlen(s);
+	for (i=0; i<256; ++i)
+	{
+		b[i] = 0;
+	}
+
+	for (i=0; i<length; ++i)
+	{
+		if (!b[s[i]])
+		{
+			s[p++] = s[i];
+			b[s[i]] = true;
+		}
+	}
+}
+
 /*****************************************************************************
     *  @brief    : print
     *  @author   : Zhangle
