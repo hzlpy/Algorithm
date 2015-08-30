@@ -1,4 +1,5 @@
-#include "stdio.h"
+#include <stdio.h>
+#include <assert.h>
 
 /*函数声明*/
 
@@ -12,16 +13,25 @@ char *strcat(char *dst, char *src);
 char *strlwr(char *src);
 //字符串转换为大写函数
 char *strupr(char *src);
+//内存复制函数
+void *memcpy(void *str1, const void *str2, size_t n);
+
+char *memmove(char *dst, const char *src, size_t count);
 
 void main()
 {
 	char dst[20]= "Hello,";
 	char src[]= "World.";
-	printf("%s\n",strcpy(dst,src));
-	printf("字符串的长度为%d. \n",strlen(src));
 	//printf("%s\n",strcpy(dst,src));
-	puts(strlwr(src));
-	puts(strupr(src));
+	//printf("字符串的长度为%d. \n",strlen(src));
+	//printf("%s\n",strcpy(dst,src));
+	//puts(strlwr(src));
+	//puts(strupr(src));
+	char d[10] = {0};
+	char s[] = "How";
+	//memcpy(d, s, 2);
+	memmove(d, s, strlen(s)+1);
+	puts(d);
 }
 
 /*****************************************************************************
@@ -126,4 +136,35 @@ char *strupr(char *src)
 		src++;
 	}
 	return str;
+}
+
+void *memcpy(void *dst, const void *src, size_t count)
+{
+	assert((dst != NULL) && (src != NULL));
+	char *temp = (char*)dst;
+	const char *s = (char*)src;
+	while (count --) {
+		*temp++ = *s++;
+	}
+	return dst;
+}
+
+char *memmove(char *dst, const char *src, size_t count)
+{
+	assert((dst != NULL) && (src != NULL));
+	char *ret = dst;
+	if (dst < src || dst > src+count) {
+		// 从开头开始拷贝
+		while (count --) {
+			*dst++ = *src++;
+		}
+	} else {
+		// 从结尾开始拷贝
+		dst = dst + count - 1;
+		src = src + count - 1;
+		while (count --) {
+			*dst-- = *src--;
+		}
+	}
+	return ret;
 }

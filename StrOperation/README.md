@@ -9,6 +9,8 @@
  3. char *strcat(char *dst, char *src); //字符串连接函数
  4. char *strlwr(char *src); //字符串转换为小写函数 
  5. char *strupr(char *src);   //字符串转换为大写函数
+ 6. void *memcpy(void *str1, const void *str2, size_t n);
+ 7. char *memmove(char *dst, const char *src, size_t count);
 
 参考：[纯C 字符串操作函数 实现 (strcpy, strncpy, memcpy, memset, strcat, strlen ... )][1]
  
