@@ -41,7 +41,7 @@ int str2int(char* str)
             ret = MAX_INT;
             break;
         }
-        else if (flag <0 && (n > (unsigned)MIN_INT / 10 || (n == (unsigned)MIN_INT / 10 && n > (unsigned)MIN_INT % 10)))
+        else if (flag <0 && (ret > (unsigned)MIN_INT / 10 || (ret == (unsigned)MIN_INT / 10 && n > (unsigned)MIN_INT % 10)))
         {
             n = MIN_INT;
             break;
@@ -55,7 +55,7 @@ int str2int(char* str)
 
 int main()
 {
-    char* str = "214748365";
+    char* str = "21474836999";
     int ret = str2int(str);
     printf("ret = %d \n", ret);
     return 0;
